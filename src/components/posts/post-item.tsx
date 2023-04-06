@@ -2,17 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import classes from './post-item.module.css';
+import Post from '@/models/post';
 
-interface Post {
-  title: string;
-  image: string;
-  excerpt: string;
-  date: Date;
-  slug: string;
-}
-
-function PostItem(props: Post) {
-  const { title, image, excerpt, date, slug } = props;
+function PostItem(props: { post: Post }) {
+  const { title, image, excerpt, date, slug } = props.post;
 
   const formattedDate = date.toLocaleDateString('en-US', {
     day: 'numeric',
@@ -20,18 +13,19 @@ function PostItem(props: Post) {
     year: 'numeric',
   });
 
-  const imagePath = `/public/images/${slug}/${image}`;
+  const imagePath = `/images/${slug}/${image}`;
+  const linkPath = `/posts/${slug}`;
 
   return (
     <li className={classes.post}>
-      <Link>
+      <Link href={linkPath}>
         <div className={classes.image}>
           <Image src={imagePath} alt={title} width={300} height={200} />
         </div>
         <div className={classes.content}>
           <h3>{title}</h3>
           <time>{formattedDate}</time>
-          <p>Some content</p>
+          <p>{excerpt}</p>
         </div>
       </Link>
     </li>
