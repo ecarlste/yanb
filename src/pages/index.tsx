@@ -18,6 +18,13 @@ const fakePosts: Post[] = [
     date: new Date(),
     slug: 'nextjs-file-based-routing',
   },
+  {
+    title: 'third post',
+    image: 'getting-started-nextjs.png',
+    excerpt: 'my second post stuff',
+    date: new Date(),
+    slug: 'my-third-post',
+  },
 ];
 
 function HomePage() {

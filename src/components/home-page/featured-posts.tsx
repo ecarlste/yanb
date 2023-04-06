@@ -7,7 +7,7 @@ function FeaturedPosts(props: { posts: Post[] }) {
   const { posts } = props;
 
   return (
-    <section>
+    <section className={classes.latest}>
       <h2>Featured Posts</h2>
       <PostsGrid posts={posts} />
     </section>
