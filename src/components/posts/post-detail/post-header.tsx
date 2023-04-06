@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import classes from './post-header.module.css';
 
-function PostHeader(props) {
+function PostHeader(props: { title: string; image: string }) {
   const { title, image } = props;
   return (
     <header className={classes.header}>
