@@ -13,8 +13,10 @@ function PostItem(props: { post: Post }) {
     year: 'numeric',
   });
 
-  const imagePath = `/images/${slug}/${image}`;
+  const imagePath = `/images/posts/${slug}/${image}`;
   const linkPath = `/posts/${slug}`;
+
+  console.debug(`imagePath: ${imagePath}`);
 
   return (
     <li className={classes.post}>

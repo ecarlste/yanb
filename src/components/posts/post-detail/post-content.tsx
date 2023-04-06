@@ -11,11 +11,11 @@ function PostContent(props: { post: Post }) {
   const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
   const customComponents = {
-    img(image) {
+    img(image: { src?: string; alt?: string }) {
       return (
         <Image
           src={`/images/posts/${post.slug}/${image.src}`}
-          alt={image.alt}
+          alt={image.alt || ''}
           width={600}
           height={300}
         />
