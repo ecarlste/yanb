@@ -2,10 +2,10 @@ interface Post {
   title: string;
   image: string;
   excerpt: string;
-  date: Date;
+  date: string;
   slug: string;
-  content?: string;
-  isFeatured?: boolean;
+  content: string;
+  isFeatured: boolean;
 }
 
 export default Post;

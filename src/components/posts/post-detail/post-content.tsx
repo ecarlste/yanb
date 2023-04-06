@@ -2,22 +2,33 @@ import React from 'react';
 import PostHeader from './post-header';
 import classes from './post-content.module.css';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import Post from '@/models/post';
+import Image from 'next/image';
 
-const fakePost = {
-  slug: 'getting-started-nextjs',
-  title: 'first post',
-  image: 'getting-started-nextjs.png',
-  date: new Date(),
-  excerpt: '# my first post stuff',
-};
+function PostContent(props: { post: Post }) {
+  const { post } = props;
 
-function PostContent() {
-  const imagePath = `/images/posts/${fakePost.slug}/${fakePost.image}`;
+  const imagePath = `/images/posts/${post.slug}/${post.image}`;
+
+  const customComponents = {
+    img(image) {
+      return (
+        <Image
+          src={`/images/posts/${post.slug}/${image.src}`}
+          alt={image.alt}
+          width={600}
+          height={300}
+        />
+      );
+    },
+  };
 
   return (
     <article className={classes.content}>
-      <PostHeader title={fakePost.title} image={imagePath} />
-      <ReactMarkdown>{fakePost.excerpt}</ReactMarkdown>
+      <PostHeader title={post.title} image={imagePath} />
+      <ReactMarkdown components={customComponents}>
+        {post.content}
+      </ReactMarkdown>
     </article>
   );
 }

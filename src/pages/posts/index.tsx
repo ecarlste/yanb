@@ -1,33 +1,21 @@
 import AllPosts from '@/components/posts/all-posts';
+import { getAllPosts } from '@/lib/posts-util';
 import Post from '@/models/post';
 import React from 'react';
 
-const fakePosts: Post[] = [
-  {
-    title: 'first post',
-    image: 'getting-started-nextjs.png',
-    excerpt: 'my first post stuff',
-    date: new Date(),
-    slug: 'getting-started-nextjs',
-  },
-  {
-    title: 'second post',
-    image: 'nextjs-file-based-routing.png',
-    excerpt: 'my second post stuff',
-    date: new Date(),
-    slug: 'nextjs-file-based-routing',
-  },
-  {
-    title: 'third post',
-    image: 'getting-started-nextjs.png',
-    excerpt: 'my second post stuff',
-    date: new Date(),
-    slug: 'my-third-post',
-  },
-];
+function PostsPage(props: { posts: Post[] }) {
+  const { posts } = props;
+  return <AllPosts posts={posts} />;
+}
 
-function PostsPage() {
-  return <AllPosts posts={fakePosts} />;
+export function getStaticProps() {
+  const allPosts = getAllPosts();
+
+  return {
+    props: {
+      posts: allPosts,
+    },
+  };
 }
 
 export default PostsPage;

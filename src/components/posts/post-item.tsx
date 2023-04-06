@@ -7,7 +7,7 @@ import Post from '@/models/post';
 function PostItem(props: { post: Post }) {
   const { title, image, excerpt, date, slug } = props.post;
 
-  const formattedDate = date.toLocaleDateString('en-US', {
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
