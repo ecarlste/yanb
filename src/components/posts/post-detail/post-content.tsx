@@ -25,7 +25,7 @@ function PostContent(props: { post: Post }) {
     },
     code(code: any) {
       const { className, children } = code;
-      const language = getLanguageFromMarkdownClassName(className);
+      const language = className.split('-')[1];
 
       return (
         <SyntaxHighlighter style={atomDark} language={language}>
@@ -43,20 +43,6 @@ function PostContent(props: { post: Post }) {
       </ReactMarkdown>
     </article>
   );
-}
-
-function getLanguageFromMarkdownClassName(className: string) {
-  const languageKey: string = className.replace('language-', '');
-
-  interface LanguageMap {
-    [shortName: string]: string;
-  }
-
-  const languageMap: LanguageMap = {
-    js: 'javascript',
-  };
-
-  return languageMap[languageKey];
 }
 
 export default PostContent;
