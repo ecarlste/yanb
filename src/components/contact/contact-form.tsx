@@ -1,14 +1,31 @@
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 import classes from './contact-form.module.css';
 
 import React, { useState } from 'react';
 import { Message } from '@/models/message';
+import {
+  generateFailureNotification,
+  generateSuccessNotification,
+} from '@/models/status-notification';
+import Notification from '../ui/notification';
 
 function ContactForm() {
   const [enteredEmail, setEnteredEmail] = useState<string>('');
   const [enteredName, setEnteredName] = useState<string>('');
   const [enteredMessage, setEnteredMessage] = useState<string>('');
   const [requestStatus, setRequestStatus] = useState<string>('');
+  const [requestError, setRequestError] = useState<string>('');
+
+  useEffect(() => {
+    if (['success', 'error'].includes(requestStatus)) {
+      const timer = setTimeout(() => {
+        setRequestStatus('');
+        setRequestStatus('');
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [requestStatus]);
 
   async function sendMessageHandler(event: FormEvent) {
     event.preventDefault();
@@ -24,8 +41,17 @@ function ContactForm() {
 
       setRequestStatus('success');
     } catch (error: any) {
+      setRequestError(error.message);
       setRequestStatus('error');
     }
+  }
+
+  let notification;
+
+  if (requestStatus === 'success') {
+    notification = generateSuccessNotification();
+  } else if (requestStatus === 'error') {
+    notification = generateFailureNotification(requestError);
   }
 
   return (
@@ -68,6 +94,7 @@ function ContactForm() {
           <button>Submit Message</button>
         </div>
       </form>
+      {notification && <Notification notification={notification} />}
     </section>
   );
 }

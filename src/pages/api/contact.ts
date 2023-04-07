@@ -16,10 +16,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       try {
         const result = await prisma.message.create({ data: newMessage });
-
         res.status(201).json(result);
       } catch (error: any) {
         console.error(error.message);
+        res.status(500).end(error.message);
       }
 
       break;
