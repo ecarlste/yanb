@@ -1,7 +1,8 @@
 import { Message } from '@/models/message';
+import { prisma } from '@/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, body } = req;
   const { email, name, message } = body;
 
@@ -13,9 +14,14 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
         message,
       };
 
-      console.log(newMessage);
+      try {
+        const result = await prisma.message.create({ data: newMessage });
 
-      res.status(201).json(newMessage);
+        res.status(201).json(result);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+
       break;
     default:
       res.setHeader('Allow', ['POST']);
