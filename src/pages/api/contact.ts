@@ -12,7 +12,9 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
         name,
         message,
       };
+
       console.log(newMessage);
+
       res.status(201).json(newMessage);
       break;
     default:
