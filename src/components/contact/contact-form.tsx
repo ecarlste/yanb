@@ -8,19 +8,24 @@ function ContactForm() {
   const [enteredEmail, setEnteredEmail] = useState<string>('');
   const [enteredName, setEnteredName] = useState<string>('');
   const [enteredMessage, setEnteredMessage] = useState<string>('');
+  const [requestStatus, setRequestStatus] = useState<string>('');
 
-  function sendMessageHandler(event: FormEvent) {
+  async function sendMessageHandler(event: FormEvent) {
     event.preventDefault();
 
-    fetch('/api/contact', {
-      method: 'POST',
-      body: JSON.stringify({
+    setRequestStatus('pending');
+
+    try {
+      await createMessage({
         email: enteredEmail,
         name: enteredName,
         message: enteredMessage,
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+      });
+
+      setRequestStatus('success');
+    } catch (error: any) {
+      setRequestStatus('error');
+    }
   }
 
   return (
@@ -65,6 +70,20 @@ function ContactForm() {
       </form>
     </section>
   );
+}
+
+async function createMessage(message: Message) {
+  const response = await fetch('/api/contact', {
+    method: 'POST',
+    body: JSON.stringify(message),
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Something went wrong!');
+  }
 }
 
 export default ContactForm;
